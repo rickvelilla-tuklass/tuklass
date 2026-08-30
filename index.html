@@ -2957,7 +2957,7 @@ setTimeout(
 
 
                 <p class="founder">
-                    Founded by Rick Aldrei A. Velilla
+                    Founded by Rick Velilla
                 </p>
 
 
@@ -3993,6 +3993,33 @@ setTimeout(
 <script>
 
 /* =========================================================
+   DISPLAY NAME
+========================================================= */
+
+function getTuklassDisplayName(name) {
+
+    const clean =
+        String(name || "")
+            .trim();
+
+    const normalized =
+        clean
+            .replace(/\s+/g, " ")
+            .toLowerCase();
+
+    if (
+        normalized === "rick aldrei velilla" ||
+        normalized === "rick aldrei a. velilla" ||
+        normalized === "rick aldrei a velilla"
+    ) {
+        return "Rick Velilla";
+    }
+
+    return clean;
+}
+
+
+/* =========================================================
    TUKLASS SIDEBAR / BRAND HELPERS
 ========================================================= */
 
@@ -4049,7 +4076,9 @@ function setupTuklassShell() {
         ) {
 
             sidebarProfileName.textContent =
-                currentUser.name ||
+                getTuklassDisplayName(
+                    currentUser.name
+                ) ||
                 currentUser.email ||
                 "Student";
 
@@ -4621,7 +4650,9 @@ function showDashboard(
             "profileName"
         )
         .textContent =
-        user.name ||
+        getTuklassDisplayName(
+            user.name
+        ) ||
         user.email ||
         "Tuklass User";
 
@@ -4633,7 +4664,9 @@ function showDashboard(
         .textContent =
         "Welcome, " +
         (
-            user.name ||
+            getTuklassDisplayName(
+                user.name
+            ) ||
             "Student"
         ) +
         "!";
@@ -4700,7 +4733,9 @@ function showDashboard(
     if (sidebarName) {
 
         sidebarName.textContent =
-            user.name ||
+            getTuklassDisplayName(
+                user.name
+            ) ||
             user.email ||
             "Student";
 
