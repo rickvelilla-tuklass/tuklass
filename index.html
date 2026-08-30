@@ -333,6 +333,27 @@ a {
     background: var(--surface-soft);
 }
 
+.button-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-right: 7px;
+    flex: 0 0 18px;
+}
+
+.setup-icon {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 14px;
+}
+
+.setup-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
 
 /* =========================================================
    LOGIN
@@ -1389,6 +1410,30 @@ footer {
     <div class="app-spinner"></div>
 </div>
 
+<script>
+/*
+ * Startup safety net.
+ * The real app hides this immediately through showHome()
+ * or showDashboard(). This only prevents an infinite spinner
+ * if an external resource or unexpected error interferes.
+ */
+setTimeout(
+    function () {
+
+        const loading =
+            document.getElementById(
+                "appLoading"
+            );
+
+        if (loading) {
+            loading.style.display = "none";
+        }
+
+    },
+    1800
+);
+</script>
+
 
 <!-- =========================================================
      PUBLIC HEADER
@@ -1456,7 +1501,7 @@ footer {
             <div class="hero-copy">
 
                 <div class="hero-badge">
-                    ✦ Built for students
+                     Built for students
                 </div>
 
 
@@ -1485,7 +1530,7 @@ footer {
                         href="catalog.html"
                         class="button green"
                     >
-                        📚 Explore Notes
+                        <img class="button-icon" src="images/CatalogA.png" alt="">Explore Notes
                     </a>
 
 
@@ -1556,23 +1601,23 @@ footer {
                         <div class="preview-nav">
 
                             <span class="active">
-                                ⌂ Home
+                                <span class="preview-home-icon">H</span> Home
                             </span>
 
                             <span>
-                                📚 Notes
+                                <img class="button-icon" src="images/CatalogA.png" alt="">Notes
                             </span>
 
                             <span>
-                                📅 Calendar
+                                <img class="button-icon" src="images/CalendarA.png" alt="">Calendar
                             </span>
 
                             <span>
-                                🔔 Reminders
+                                <img class="button-icon" src="images/BelleA.png" alt="">Reminders
                             </span>
 
                             <span>
-                                💬 Messages
+                                <img class="button-icon" src="images/MessageA.png" alt="">Messages
                             </span>
 
                         </div>
@@ -1600,7 +1645,7 @@ footer {
                                 class="preview-card"
                             >
                                 <strong>
-                                    📚 Notes
+                                    <img class="button-icon" src="images/CatalogA.png" alt="">Notes
                                 </strong>
 
                                 <span>
@@ -1613,7 +1658,7 @@ footer {
                                 class="preview-card"
                             >
                                 <strong>
-                                    📅 Calendar
+                                    <img class="button-icon" src="images/CalendarA.png" alt="">Calendar
                                 </strong>
 
                                 <span>
@@ -1626,7 +1671,7 @@ footer {
                                 class="preview-card"
                             >
                                 <strong>
-                                    🔔 Reminders
+                                    <img class="button-icon" src="images/BelleA.png" alt="">Reminders
                                 </strong>
 
                                 <span>
@@ -1639,7 +1684,7 @@ footer {
                                 class="preview-card"
                             >
                                 <strong>
-                                    💬 Messages
+                                    <img class="button-icon" src="images/MessageA.png" alt="">Messages
                                 </strong>
 
                                 <span>
@@ -1673,7 +1718,7 @@ footer {
     <div class="setup-card">
 
         <div class="setup-icon">
-            👋
+            <img src="images/Logo3.1.png" alt="">
         </div>
 
 
@@ -2110,14 +2155,14 @@ footer {
                             href="catalog.html"
                             class="button green"
                         >
-                            📚 Open Notes
+                            <img class="button-icon" src="images/CatalogA.png" alt=""><img class="button-icon" src="images/CatalogA.png" alt="">Open Notes
                         </a>
 
                         <a
                             href="calendar.html"
                             class="button secondary"
                         >
-                            📅 Calendar
+                            <img class="button-icon" src="images/CalendarA.png" alt="">Calendar
                         </a>
 
                     </div>
@@ -2304,7 +2349,7 @@ footer {
                         href="calendar.html"
                         class="button primary"
                     >
-                        Open Calendar
+                        <img class="button-icon" src="images/CalendarA.png" alt="">Open Calendar
                     </a>
 
                 </div>
@@ -2342,7 +2387,7 @@ footer {
                         href="reminders.html"
                         class="button primary"
                     >
-                        Open Reminders
+                        <img class="button-icon" src="images/BelleA.png" alt="">Open Reminders
                     </a>
 
                 </div>
@@ -2380,7 +2425,7 @@ footer {
                         href="messages.html"
                         class="button primary"
                     >
-                        Open Messages
+                        <img class="button-icon" src="images/MessageA.png" alt="">Open Messages
                     </a>
 
                 </div>
@@ -2678,44 +2723,6 @@ function setupSidebarIcons() {
 
 
 /* =========================================================
-   DASHBOARD OVERRIDE
-========================================================= */
-
-(function() {
-
-    const originalShowDashboard =
-        window.showDashboard;
-
-
-    if (
-        typeof originalShowDashboard !==
-            "function"
-    ) {
-
-        return;
-
-    }
-
-
-    window.showDashboard =
-        function(user) {
-
-            originalShowDashboard(
-                user
-            );
-
-
-            setupTuklassShell();
-
-
-            setupSidebarIcons();
-
-        };
-
-})();
-
-
-/* =========================================================
    KEEP BRAND / PROFILE IN SYNC
 ========================================================= */
 
@@ -2764,15 +2771,32 @@ let profileSearchTimer =
    PAGE START
 ========================================================= */
 
-window.addEventListener(
-    "load",
+document.addEventListener(
+    "DOMContentLoaded",
     function () {
 
-        initializeGoogleLogin();
-
+        /*
+         * IMPORTANT:
+         * Load the saved local session FIRST.
+         * This means the dashboard can appear as soon
+         * as the HTML is ready instead of waiting for
+         * every image/resource on the page.
+         */
         loadSavedSession();
 
+        /*
+         * Profile search does not need to block startup.
+         */
         setupProfileSearch();
+
+        /*
+         * Google login initializes independently.
+         * It is allowed to load in the background.
+         */
+        setTimeout(
+            initializeGoogleLogin,
+            0
+        );
 
     }
 );
@@ -3246,6 +3270,23 @@ function showDashboard(
                 user.username
             );
 
+    }
+
+    /*
+     * Refresh Tuklass sidebar state immediately.
+     */
+    if (
+        typeof setupTuklassShell ===
+            "function"
+    ) {
+        setupTuklassShell();
+    }
+
+    if (
+        typeof setupSidebarIcons ===
+            "function"
+    ) {
+        setupSidebarIcons();
     }
 
 }
