@@ -1,4 +1,4528 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Tuklass is a student-focused platform for notes, classes, schedules, reminders, messaging, and study resources."
+>
+
+<meta
+    name="theme-color"
+    content="#9cff00"
+>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="images/Logo3.1.png"
+>
+
+<title>Tuklass | Your class, organized.</title>
+
+<script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer>
+</script>
+
+<style>
+
+/* =========================================================
+   TUKLASS DESIGN SYSTEM
+========================================================= */
+
+:root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-soft: #f1f3f5;
+    --surface-hover: #edf1f4;
+    --text: #14171a;
+    --text-soft: #69727d;
+    --border: #e5e9ed;
+    --green: #9cff00;
+    --green-deep: #72c900;
+    --green-soft: #efffd8;
+    --sidebar: #ffffff;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    --radius: 16px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+body,
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#appLoading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    z-index: 9999;
+}
+
+.app-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e9ed;
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: appSpin .7s linear infinite;
+}
+
+@keyframes appSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   PUBLIC HEADER
+========================================================= */
+
+.public-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 14px 6%;
+
+    background: rgba(255, 255, 255, .96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    text-decoration: none;
+    color: var(--text);
+}
+
+.brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    flex: 0 0 42px;
+}
+
+.brand-word {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -.04em;
+}
+
+#profileArea {
+    display: none;
+    align-items: center;
+    gap: 10px;
+}
+
+#profilePicture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--green-deep);
+    background: var(--surface-soft);
+}
+
+#profileName {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+#logoutButton {
+    border: none;
+    background: var(--text);
+    color: white;
+    padding: 9px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PUBLIC HOME
+========================================================= */
+
+#homeSection {
+    display: none;
+}
+
+.public-home {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+}
+
+.public-inner {
+    width: min(1080px, 100%);
+}
+
+.public-grid {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.hero-copy h1 {
+    margin: 16px 0;
+    font-size: clamp(46px, 7vw, 82px);
+    line-height: .96;
+    letter-spacing: -.06em;
+}
+
+.hero-copy h1 span {
+    color: var(--green-deep);
+}
+
+.hero-subtitle {
+    max-width: 640px;
+    color: var(--text-soft);
+    font-size: 19px;
+}
+
+.founder {
+    margin-top: 16px;
+    color: var(--text-soft);
+    font-size: 14px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+    border-radius: 999px;
+
+    background: var(--green-soft);
+    color: #3c6900;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+    padding: 11px 17px;
+
+    border-radius: 11px;
+    border: 1px solid transparent;
+
+    text-decoration: none;
+    font-weight: 800;
+    cursor: pointer;
+
+    transition:
+        transform .16s ease,
+        background .16s ease,
+        border-color .16s ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+}
+
+.button.primary {
+    background: var(--text);
+    color: white;
+}
+
+.button.primary:hover {
+    background: #242a2f;
+}
+
+.button.green {
+    background: var(--green);
+    color: #102000;
+}
+
+.button.green:hover {
+    background: #b3ff40;
+}
+
+.button.secondary {
+    background: white;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.button.secondary:hover {
+    background: var(--surface-soft);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#loginSection {
+    margin-top: 30px;
+    width: min(430px, 100%);
+}
+
+.login-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+.login-card h3 {
+    margin-bottom: 5px;
+}
+
+.login-card p {
+    color: var(--text-soft);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+#googleLogin {
+    min-height: 42px;
+}
+
+
+/* =========================================================
+   HERO MOCKUP
+========================================================= */
+
+.app-preview {
+    background: #111417;
+    border-radius: 24px;
+    padding: 14px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, .16);
+}
+
+.preview-top {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.preview-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5e666d;
+}
+
+.preview-body {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    min-height: 420px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #f7f8fa;
+}
+
+.preview-side {
+    padding: 16px 12px;
+    background: #fff;
+    border-right: 1px solid #e5e9ed;
+}
+
+.preview-brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 18px;
+    font-weight: 800;
+}
+
+.preview-brand img {
+    width: 24px;
+    height: 24px;
+}
+
+.preview-nav {
+    display: grid;
+    gap: 6px;
+}
+
+.preview-nav span {
+    padding: 9px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #69727d;
+}
+
+.preview-nav span.active {
+    background: #111417;
+    color: white;
+}
+
+.preview-main {
+    padding: 22px;
+}
+
+.preview-main h3 {
+    margin-bottom: 5px;
+}
+
+.preview-main p {
+    color: #69727d;
+    font-size: 12px;
+}
+
+.preview-cards {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.preview-card {
+    padding: 18px;
+    background: white;
+    border: 1px solid #e5e9ed;
+    border-radius: 14px;
+}
+
+.preview-card strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   ACCOUNT SETUP
+========================================================= */
+
+#accountSetup {
+    display: none;
+    min-height: calc(100vh - 72px);
+    align-items: center;
+    justify-content: center;
+    padding: 40px 18px;
+}
+
+.setup-card {
+    width: min(520px, 100%);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+}
+
+.setup-icon {
+    font-size: 42px;
+    margin-bottom: 14px;
+}
+
+.setup-card h1 {
+    font-size: 30px;
+    letter-spacing: -.04em;
+}
+
+.setup-card > p {
+    margin-top: 7px;
+    color: var(--text-soft);
+}
+
+.username-label {
+    display: block;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.username-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+.username-prefix {
+    padding: 12px 0 12px 13px;
+    color: var(--text-soft);
+    font-weight: 800;
+}
+
+#usernameInput {
+    width: 100%;
+    padding: 12px 13px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+#usernameMessage {
+    min-height: 22px;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+#createAccountButton {
+    width: 100%;
+    margin-top: 12px;
+}
+
+#setupLoading {
+    display: none;
+    margin-top: 10px;
+    color: var(--text-soft);
+    font-size: 13px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   LOGGED-IN DASHBOARD APP SHELL
+========================================================= */
+
+#dashboard {
+    display: none;
+}
+
+.dashboard-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    position: sticky;
+    top: 0;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 18px 14px;
+
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 6px 10px 18px;
+
+    text-decoration: none;
+    color: var(--text);
+}
+
+.sidebar-brand img {
+    width: 37px;
+    height: 37px;
+    object-fit: contain;
+}
+
+.sidebar-brand span {
+    font-size: 22px;
+    font-weight: 850;
+    letter-spacing: -.045em;
+}
+
+.sidebar-search {
+    position: relative;
+    margin: 2px 0 14px;
+}
+
+.sidebar-search input {
+    width: 100%;
+    height: 40px;
+
+    padding: 0 12px 0 36px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 11px;
+
+    background: var(--surface-soft);
+
+    outline: none;
+
+    font-size: 13px;
+}
+
+.sidebar-search::before {
+    content: "⌕";
+
+    position: absolute;
+    left: 12px;
+    top: 8px;
+
+    color: var(--text-soft);
+    font-size: 20px;
+    line-height: 1;
+}
+
+#profileSearchResults {
+    display: none;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 48px;
+
+    z-index: 120;
+
+    background: white;
+    border:
+        1px solid var(--border);
+    border-radius: 14px;
+
+    box-shadow:
+        0 16px 38px rgba(15, 23, 42, .12);
+
+    overflow: hidden;
+}
+
+.search-result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    cursor: pointer;
+}
+
+.search-result:hover {
+    background: var(--surface-soft);
+}
+
+.search-result img {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+.search-result-name {
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.search-result-username {
+    color: var(--green-deep);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.search-result-bio {
+    color: var(--text-soft);
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   SIDEBAR NAV
+========================================================= */
+
+.sidebar-nav {
+    display: grid;
+    gap: 5px;
+}
+
+.sidebar-label {
+    margin: 8px 10px 7px;
+
+    color: #98a1aa;
+
+    text-transform: uppercase;
+    letter-spacing: .08em;
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.sidebar-link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-height: 46px;
+
+    padding: 8px 10px;
+
+    border-radius: 12px;
+
+    color: #58616b;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+
+    transition:
+        background .15s ease,
+        color .15s ease;
+}
+
+.sidebar-link:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+
+.sidebar-link.active {
+    background: #111417;
+    color: white;
+}
+
+.sidebar-link.disabled {
+    opacity: .48;
+    cursor: not-allowed;
+}
+
+.nav-icon {
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+
+    object-fit: contain;
+}
+
+.sidebar-link .nav-icon.icon-b {
+    display: none;
+}
+
+.sidebar-link:hover .nav-icon.icon-a,
+.sidebar-link.active .nav-icon.icon-a {
+    display: none;
+}
+
+.sidebar-link:hover .nav-icon.icon-b,
+.sidebar-link.active .nav-icon.icon-b {
+    display: block;
+}
+
+.sidebar-link.active .nav-home-icon {
+    color: var(--green);
+}
+
+.nav-home-icon {
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: currentColor;
+
+    font-size: 21px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+.sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--surface-soft);
+}
+
+.sidebar-profile img {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--green-deep);
+}
+
+.sidebar-profile-copy {
+    min-width: 0;
+    flex: 1;
+}
+
+.sidebar-profile-copy strong {
+    display: block;
+    font-size: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-profile-copy span {
+    display: block;
+    color: var(--text-soft);
+    font-size: 10px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-edit {
+    width: 35px;
+    height: 35px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: var(--text);
+
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sidebar-edit:hover {
+    background: var(--green);
+}
+
+
+/* =========================================================
+   DASHBOARD MAIN
+========================================================= */
+
+.dashboard-main {
+    min-width: 0;
+    padding: 26px 30px 50px;
+}
+
+.dashboard-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+.dashboard-topbar h1 {
+    font-size: 28px;
+    letter-spacing: -.045em;
+}
+
+.dashboard-topbar p {
+    color: var(--text-soft);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.topbar-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    background: var(--green-soft);
+    color: #3d6800;
+
+    font-size: 11px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   DASHBOARD HERO
+========================================================= */
+
+.dashboard-welcome {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+.welcome-card {
+    padding: 27px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f4f7f1
+        );
+
+    border:
+        1px solid var(--border);
+
+    box-shadow: var(--shadow);
+}
+
+.dashboard-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--green);
+    background: var(--surface-soft);
+    margin-bottom: 12px;
+}
+
+.welcome-card h2 {
+    font-size: 30px;
+    letter-spacing: -.045em;
+}
+
+.welcome-card p {
+    color: var(--text-soft);
+    margin-top: 6px;
+}
+
+.welcome-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.status-card {
+    padding: 24px;
+
+    border-radius: 20px;
+
+    background: #111417;
+    color: white;
+}
+
+.status-card .label {
+    color: #aeb7bf;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 900;
+}
+
+.status-card .status {
+    margin-top: 10px;
+
+    color: var(--green);
+
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.status-card p {
+    margin-top: 8px;
+
+    color: #c8cfd5;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: 14px;
+}
+
+.dashboard-card {
+    position: relative;
+
+    min-height: 180px;
+
+    padding: 20px;
+
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 17px;
+
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, .035);
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        border-color .15s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #d7ddd8;
+
+    box-shadow:
+        0 10px 28px rgba(15, 23, 42, .07);
+}
+
+.dashboard-icon {
+    width: 42px;
+    height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 12px;
+
+    background: var(--surface-soft);
+}
+
+.dashboard-icon img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.dashboard-card h3 {
+    font-size: 16px;
+}
+
+.dashboard-card p {
+    margin-top: 5px;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+
+    max-width: 280px;
+}
+
+.dashboard-card .button {
+    margin-top: 16px;
+}
+
+.feature-soon {
+    display: inline-flex;
+    margin-top: 15px;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    background: var(--surface-soft);
+
+    color: #7a838d;
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   ACCOUNT STATUS / PRICING
+========================================================= */
+
+.member-lower {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.info-card {
+    padding: 21px;
+
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 17px;
+}
+
+.info-card h3 {
+    margin-bottom: 6px;
+}
+
+.info-card p {
+    color: var(--text-soft);
+    font-size: 13px;
+}
+
+.price-offer {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.old-price {
+    color: #9ba3ab;
+    font-size: 18px;
+    text-decoration: line-through;
+}
+
+.current-price {
+    color: var(--text);
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -.05em;
+}
+
+.discount-badge {
+    display: inline-flex;
+    padding: 5px 8px;
+    border-radius: 999px;
+
+    background: var(--green-soft);
+    color: #3b6800;
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.dashboard-status-message {
+    margin-top: 9px;
+    color: var(--text-soft);
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    border-top: 1px solid var(--border);
+    background: white;
+    padding: 25px 20px;
+    text-align: center;
+    color: #8a929b;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .dashboard-shell {
+        grid-template-columns: 80px minmax(0, 1fr);
+    }
+
+    .sidebar {
+        padding: 14px 8px;
+    }
+
+    .sidebar-brand {
+        justify-content: center;
+        padding: 5px 0 18px;
+    }
+
+    .sidebar-brand span,
+    .sidebar-label,
+    .sidebar-link > span:last-child,
+    .sidebar-profile-copy,
+    .sidebar-edit {
+        display: none;
+    }
+
+    .sidebar-link {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .sidebar-profile {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .sidebar-profile img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .sidebar-search {
+        display: none;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-welcome {
+        grid-template-columns: 1fr;
+    }
+
+    .member-lower {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 760px) {
+
+    .public-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .app-preview {
+        display: none;
+    }
+
+    .public-home {
+        align-items: flex-start;
+        padding-top: 55px;
+    }
+
+    .dashboard-main {
+        padding: 20px 15px 35px;
+    }
+
+    .dashboard-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    .dashboard-shell {
+        display: block;
+    }
+
+    .sidebar {
+        position: sticky;
+        bottom: 0;
+        top: auto;
+
+        width: 100%;
+        height: auto;
+
+        flex-direction: row;
+        align-items: center;
+
+        padding: 8px;
+
+        border-right: none;
+        border-top: 1px solid var(--border);
+
+        z-index: 1000;
+    }
+
+    .sidebar-brand,
+    .sidebar-search,
+    .sidebar-bottom,
+    .sidebar-label {
+        display: none;
+    }
+
+    .sidebar-nav {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 3px;
+    }
+
+    .sidebar-link {
+        min-height: 48px;
+        justify-content: center;
+        padding: 7px;
+    }
+
+    .sidebar-link > span:last-child {
+        display: none;
+    }
+
+    .dashboard-main {
+        padding-bottom: 88px;
+    }
+
+    .public-header {
+        padding: 11px 15px;
+    }
+
+    .brand-word {
+        font-size: 21px;
+    }
+
+    #profileName {
+        display: none;
+    }
+}
+
+</style>
+</head>
+
 <body>
-<center><h1>Hello</h1></center>
-</body
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div id="appLoading">
+    <div class="app-spinner"></div>
+</div>
+
+
+<!-- =========================================================
+     PUBLIC HEADER
+========================================================= -->
+
+<header
+    id="publicHeader"
+    class="public-header"
+>
+
+    <a
+        href="#"
+        class="brand"
+    >
+        <img
+            src="images/Logo3.1.png"
+            alt="Tuklass"
+            onerror="this.src='images/Logo3.png';"
+        >
+
+        <span class="brand-word">
+            Tuklass
+        </span>
+    </a>
+
+
+    <div id="profileArea">
+
+        <img
+            id="profilePicture"
+            src="images/Logo3.1.png"
+            alt="Profile picture"
+            onerror="this.src='images/Logo3.png';"
+        >
+
+        <span
+            id="profileName"
+        ></span>
+
+        <button
+            id="logoutButton"
+            onclick="logout()"
+        >
+            Log out
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     PUBLIC HOME
+========================================================= -->
+
+<section
+    id="homeSection"
+    class="public-home"
+>
+
+    <div class="public-inner">
+
+        <div class="public-grid">
+
+            <div class="hero-copy">
+
+                <div class="hero-badge">
+                    ✦ Built for students
+                </div>
+
+
+                <h1>
+                    Your class.
+                    <span>All in one place.</span>
+                </h1>
+
+
+                <p class="hero-subtitle">
+                    Keep your notes, classes,
+                    schedules, reminders, and
+                    conversations organized in one
+                    simple student workspace.
+                </p>
+
+
+                <p class="founder">
+                    Founded by Rick Aldrei A. Velilla
+                </p>
+
+
+                <div class="button-row">
+
+                    <a
+                        href="catalog.html"
+                        class="button green"
+                    >
+                        📚 Explore Notes
+                    </a>
+
+
+                    <a
+                        href="#login"
+                        class="button secondary"
+                    >
+                        Sign in
+                    </a>
+
+                </div>
+
+
+                <div id="loginSection">
+
+                    <div class="login-card">
+
+                        <h3>
+                            Sign in to Tuklass
+                        </h3>
+
+                        <p>
+                            Use your Google account
+                            to get started.
+                        </p>
+
+                        <div
+                            id="googleLogin"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="app-preview">
+
+                <div class="preview-top">
+
+                    <span class="preview-dot"></span>
+                    <span class="preview-dot"></span>
+                    <span class="preview-dot"></span>
+
+                </div>
+
+
+                <div class="preview-body">
+
+                    <aside class="preview-side">
+
+                        <div class="preview-brand">
+
+                            <img
+                                src="images/Logo3.1.png"
+                                alt=""
+                                onerror="this.src='images/Logo3.png';"
+                            >
+
+                            <span>
+                                Tuklass
+                            </span>
+
+                        </div>
+
+
+                        <div class="preview-nav">
+
+                            <span class="active">
+                                ⌂ Home
+                            </span>
+
+                            <span>
+                                📚 Notes
+                            </span>
+
+                            <span>
+                                📅 Calendar
+                            </span>
+
+                            <span>
+                                🔔 Reminders
+                            </span>
+
+                            <span>
+                                💬 Messages
+                            </span>
+
+                        </div>
+
+                    </aside>
+
+
+                    <div class="preview-main">
+
+                        <h3>
+                            Welcome back
+                        </h3>
+
+                        <p>
+                            Everything for your
+                            classes, organized.
+                        </p>
+
+
+                        <div
+                            class="preview-cards"
+                        >
+
+                            <div
+                                class="preview-card"
+                            >
+                                <strong>
+                                    📚 Notes
+                                </strong>
+
+                                <span>
+                                    Lesson materials
+                                </span>
+                            </div>
+
+
+                            <div
+                                class="preview-card"
+                            >
+                                <strong>
+                                    📅 Calendar
+                                </strong>
+
+                                <span>
+                                    Your schedule
+                                </span>
+                            </div>
+
+
+                            <div
+                                class="preview-card"
+                            >
+                                <strong>
+                                    🔔 Reminders
+                                </strong>
+
+                                <span>
+                                    Never miss work
+                                </span>
+                            </div>
+
+
+                            <div
+                                class="preview-card"
+                            >
+                                <strong>
+                                    💬 Messages
+                                </strong>
+
+                                <span>
+                                    Stay connected
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ACCOUNT SETUP
+========================================================= -->
+
+<section
+    id="accountSetup"
+>
+
+    <div class="setup-card">
+
+        <div class="setup-icon">
+            👋
+        </div>
+
+
+        <h1>
+            Welcome to Tuklass!
+        </h1>
+
+
+        <p>
+            You're almost ready.
+            Choose a username for your
+            Tuklass account.
+        </p>
+
+
+        <label
+            class="username-label"
+            for="usernameInput"
+        >
+            Username
+        </label>
+
+
+        <div
+            class="username-wrapper"
+        >
+
+            <span
+                class="username-prefix"
+            >
+                @
+            </span>
+
+            <input
+                id="usernameInput"
+                type="text"
+                maxlength="20"
+                placeholder="yourusername"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="usernameMessage"
+        ></div>
+
+
+        <button
+            id="createAccountButton"
+            class="button green"
+            onclick="createWritejotAccount()"
+        >
+            Create Tuklass Account
+        </button>
+
+
+        <div
+            id="setupLoading"
+        >
+            Creating your account...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LOGGED-IN DASHBOARD
+========================================================= -->
+
+<section
+    id="dashboard"
+>
+
+    <div class="dashboard-shell">
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <aside class="sidebar">
+
+
+            <a
+                href="index.html"
+                class="sidebar-brand"
+                title="Tuklass Home"
+            >
+
+                <img
+                    src="images/Logo3.1.png"
+                    alt="Tuklass"
+                    onerror="this.src='images/Logo3.png';"
+                >
+
+                <span>
+                    Tuklass
+                </span>
+
+            </a>
+
+
+            <!-- PROFILE SEARCH -->
+
+            <div
+                class="sidebar-search profile-search"
+            >
+
+                <input
+                    id="profileSearchInput"
+                    type="text"
+                    placeholder="Search profiles..."
+                    autocomplete="off"
+                >
+
+
+                <div
+                    id="profileSearchResults"
+                ></div>
+
+            </div>
+
+
+            <div
+                class="sidebar-label"
+            >
+                Workspace
+            </div>
+
+
+            <nav
+                class="sidebar-nav"
+            >
+
+
+                <!-- HOME -->
+
+                <a
+                    href="index.html"
+                    class="sidebar-link active"
+                    data-page="home"
+                    title="Home"
+                >
+
+                    <span
+                        class="nav-home-icon"
+                    >
+                        ⌂
+                    </span>
+
+                    <span>
+                        Home
+                    </span>
+
+                </a>
+
+
+                <!-- NOTES -->
+
+                <a
+                    href="catalog.html"
+                    class="sidebar-link"
+                    data-page="catalog"
+                    title="Notes"
+                >
+
+                    <img
+                        class="nav-icon icon-a"
+                        src="images/CatalogA.png"
+                        alt=""
+                    >
+
+                    <img
+                        class="nav-icon icon-b"
+                        src="images/CatalogB.png"
+                        alt=""
+                    >
+
+                    <span>
+                        Notes
+                    </span>
+
+                </a>
+
+
+                <!-- CALENDAR -->
+
+                <a
+                    href="calendar.html"
+                    class="sidebar-link"
+                    data-page="calendar"
+                    title="Calendar"
+                >
+
+                    <img
+                        class="nav-icon icon-a"
+                        src="images/CalendarA.png"
+                        alt=""
+                    >
+
+                    <img
+                        class="nav-icon icon-b"
+                        src="images/CalendarB.png"
+                        alt=""
+                    >
+
+                    <span>
+                        Calendar
+                    </span>
+
+                </a>
+
+
+                <!-- REMINDERS -->
+
+                <a
+                    href="reminders.html"
+                    class="sidebar-link"
+                    data-page="reminders"
+                    title="Reminders"
+                >
+
+                    <img
+                        class="nav-icon icon-a"
+                        src="images/BelleA.png"
+                        alt=""
+                    >
+
+                    <img
+                        class="nav-icon icon-b"
+                        src="images/BelleB.png"
+                        alt=""
+                    >
+
+                    <span>
+                        Reminders
+                    </span>
+
+                </a>
+
+
+                <!-- MESSAGES -->
+
+                <a
+                    href="messages.html"
+                    class="sidebar-link"
+                    data-page="messages"
+                    title="Messages"
+                >
+
+                    <img
+                        class="nav-icon icon-a"
+                        src="images/MessageA.png"
+                        alt=""
+                    >
+
+                    <img
+                        class="nav-icon icon-b"
+                        src="images/MessageB.png"
+                        alt=""
+                    >
+
+                    <span>
+                        Messages
+                    </span>
+
+                </a>
+
+
+                <!-- FLASHCARDS -->
+
+                <a
+                    href="#"
+                    class="sidebar-link disabled"
+                    data-page="flashcards"
+                    title="Flashcards coming soon"
+                    onclick="
+                        event.preventDefault();
+                        featureComingSoon('Flashcards');
+                    "
+                >
+
+                    <img
+                        class="nav-icon icon-a"
+                        src="images/CardsA.png"
+                        alt=""
+                    >
+
+                    <img
+                        class="nav-icon icon-b"
+                        src="images/CardsB.png"
+                        alt=""
+                    >
+
+                    <span>
+                        Flashcards
+                    </span>
+
+                </a>
+
+            </nav>
+
+
+            <div
+                class="sidebar-bottom"
+            >
+
+                <div
+                    class="sidebar-profile"
+                >
+
+                    <img
+                        id="sidebarProfilePicture"
+                        src="images/Logo3.1.png"
+                        alt=""
+                        onerror="this.src='images/Logo3.png';"
+                    >
+
+
+                    <div
+                        class="sidebar-profile-copy"
+                    >
+
+                        <strong
+                            id="sidebarProfileName"
+                        >
+                            Student
+                        </strong>
+
+                        <span
+                            id="sidebarProfileUsername"
+                        >
+                            @username
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="edit-profile.html"
+                        class="sidebar-edit"
+                        title="Edit profile"
+                    >
+                        ⚙
+                    </a>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================================
+             MAIN
+        ====================================================== -->
+
+        <main
+            class="dashboard-main"
+        >
+
+
+            <div
+                class="dashboard-topbar"
+            >
+
+                <div>
+
+                    <h1 id="dashboardName">
+                        Welcome!
+                    </h1>
+
+                    <p
+                        id="dashboardUsername"
+                    >
+                        @username
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="topbar-status"
+                >
+                    <span
+                        id="dashboardStatus"
+                    >
+                        Tuklass account
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- WELCOME -->
+
+            <div
+                class="dashboard-welcome"
+            >
+
+                <div
+                    class="welcome-card"
+                >
+
+                    <img
+                        id="dashboardPicture"
+                        class="dashboard-avatar"
+                        src="images/Logo3.1.png"
+                        alt="Profile picture"
+                        onerror="this.src='images/Logo3.png';"
+                    >
+
+                    <h2>
+                        Your school,
+                        organized.
+                    </h2>
+
+                    <p>
+                        Jump into your notes,
+                        schedule, reminders,
+                        and conversations.
+                    </p>
+
+
+                    <div
+                        class="welcome-actions"
+                    >
+
+                        <a
+                            href="catalog.html"
+                            class="button green"
+                        >
+                            📚 Open Notes
+                        </a>
+
+                        <a
+                            href="calendar.html"
+                            class="button secondary"
+                        >
+                            📅 Calendar
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="status-card"
+                >
+
+                    <div
+                        class="label"
+                    >
+                        Account
+                    </div>
+
+
+                    <div
+                        class="status"
+                        id="dashboardStatusMessage"
+                    >
+                        Checking status...
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURES -->
+
+            <div
+                class="dashboard-grid"
+            >
+
+
+                <!-- NOTES -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/CatalogA.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Notes Catalog
+                    </h3>
+
+                    <p>
+                        Browse organized student
+                        notes and lesson materials.
+                    </p>
+
+
+                    <a
+                        href="catalog.html"
+                        class="button primary"
+                    >
+                        Open Catalog
+                    </a>
+
+                </div>
+
+
+                <!-- SHARE NOTES -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/Logo3.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Share Notes
+                    </h3>
+
+                    <p>
+                        Submit your notes for
+                        review and possible inclusion
+                        in the catalog.
+                    </p>
+
+
+                    <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSdp5M_YiW2cUsR2Sy-rPl6u2FGHeaLWzxhDl5zunMT6cq8y1w/viewform?usp=dialog"
+                        class="button secondary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Submit Notes
+                    </a>
+
+                </div>
+
+
+                <!-- FLASHCARDS -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/CardsA.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Flashcards
+                    </h3>
+
+                    <p>
+                        Flashcards will be tied to
+                        your lesson-based study materials.
+                    </p>
+
+
+                    <span
+                        class="feature-soon"
+                    >
+                        Coming soon
+                    </span>
+
+                </div>
+
+
+                <!-- CALENDAR -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/CalendarA.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Calendar
+                    </h3>
+
+                    <p>
+                        Keep track of classes,
+                        events, and your schedule.
+                    </p>
+
+
+                    <a
+                        href="calendar.html"
+                        class="button primary"
+                    >
+                        Open Calendar
+                    </a>
+
+                </div>
+
+
+                <!-- REMINDERS -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/BelleA.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Reminders
+                    </h3>
+
+                    <p>
+                        Never miss a test,
+                        deadline, or class reminder.
+                    </p>
+
+
+                    <a
+                        href="reminders.html"
+                        class="button primary"
+                    >
+                        Open Reminders
+                    </a>
+
+                </div>
+
+
+                <!-- MESSAGES -->
+
+                <div
+                    class="dashboard-card"
+                >
+
+                    <div
+                        class="dashboard-icon"
+                    >
+
+                        <img
+                            src="images/MessageA.png"
+                            alt=""
+                        >
+
+                    </div>
+
+
+                    <h3>
+                        Messages
+                    </h3>
+
+                    <p>
+                        Talk with classmates and
+                        stay connected.
+                    </p>
+
+
+                    <a
+                        href="messages.html"
+                        class="button primary"
+                    >
+                        Open Messages
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER INFO -->
+
+            <div
+                class="member-lower"
+            >
+
+                <div
+                    class="info-card"
+                >
+
+                    <h3>
+                        Your profile
+                    </h3>
+
+                    <p>
+                        Keep your name, username,
+                        profile photo, and bio up to
+                        date.
+                    </p>
+
+
+                    <a
+                        href="profile.html?username="
+                        id="profilePageLink"
+                        class="button secondary"
+                        style="margin-top:14px;"
+                    >
+                        View Profile
+                    </a>
+
+
+                </div>
+
+
+                <div
+                    class="info-card"
+                >
+
+                    <h3>
+                        Tuklass access
+                    </h3>
+
+                    <p>
+                        Your access status is shown
+                        here and refreshed in the
+                        background.
+                    </p>
+
+
+                    <div
+                        class="price-offer"
+                    >
+
+                        <span
+                            class="old-price"
+                        >
+                            ₱249
+                        </span>
+
+                        <span
+                            class="discount-badge"
+                        >
+                            40% OFF
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="current-price"
+                    >
+                        ₱149
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+</section>
+
+
+<footer id="siteFooter">
+
+    <strong>
+        Tuklass
+    </strong>
+
+    · Student learning, organized.
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   TUKLASS SIDEBAR / BRAND HELPERS
+========================================================= */
+
+function setupTuklassShell() {
+
+    const sidebarProfilePicture =
+        document.getElementById(
+            "sidebarProfilePicture"
+        );
+
+
+    const sidebarProfileName =
+        document.getElementById(
+            "sidebarProfileName"
+        );
+
+
+    const sidebarProfileUsername =
+        document.getElementById(
+            "sidebarProfileUsername"
+        );
+
+
+    const profilePageLink =
+        document.getElementById(
+            "profilePageLink"
+        );
+
+
+    if (
+        typeof currentUser !==
+            "undefined" &&
+        currentUser
+    ) {
+
+        const picture =
+            currentUser.profilePicture ||
+            currentUser.picture ||
+            "images/Logo3.1.png";
+
+
+        if (
+            sidebarProfilePicture
+        ) {
+
+            sidebarProfilePicture.src =
+                picture;
+
+        }
+
+
+        if (
+            sidebarProfileName
+        ) {
+
+            sidebarProfileName.textContent =
+                currentUser.name ||
+                currentUser.email ||
+                "Student";
+
+        }
+
+
+        if (
+            sidebarProfileUsername
+        ) {
+
+            sidebarProfileUsername.textContent =
+                "@" +
+                (
+                    currentUser.username ||
+                    "username"
+                );
+
+        }
+
+
+        if (
+            profilePageLink
+        ) {
+
+            if (
+                currentUser.username
+            ) {
+
+                profilePageLink.href =
+                    "profile.html?username=" +
+                    encodeURIComponent(
+                        currentUser.username
+                    );
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ACTIVE / HOVER ICONS
+========================================================= */
+
+function setupSidebarIcons() {
+
+    document
+        .querySelectorAll(
+            ".sidebar-link"
+        )
+        .forEach(
+            function(link) {
+
+                const a =
+                    link.querySelector(
+                        ".icon-a"
+                    );
+
+
+                const b =
+                    link.querySelector(
+                        ".icon-b"
+                    );
+
+
+                if (
+                    !a ||
+                    !b
+                ) {
+
+                    return;
+
+                }
+
+
+                link.addEventListener(
+                    "mouseenter",
+                    function() {
+
+                        a.style.display =
+                            "none";
+
+
+                        b.style.display =
+                            "block";
+
+                    }
+                );
+
+
+                link.addEventListener(
+                    "mouseleave",
+                    function() {
+
+                        if (
+                            link.classList.contains(
+                                "active"
+                            )
+                        ) {
+
+                            a.style.display =
+                                "none";
+
+
+                            b.style.display =
+                                "block";
+
+                        }
+
+                        else {
+
+                            a.style.display =
+                                "block";
+
+
+                            b.style.display =
+                                "none";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   DASHBOARD OVERRIDE
+========================================================= */
+
+(function() {
+
+    const originalShowDashboard =
+        window.showDashboard;
+
+
+    if (
+        typeof originalShowDashboard !==
+            "function"
+    ) {
+
+        return;
+
+    }
+
+
+    window.showDashboard =
+        function(user) {
+
+            originalShowDashboard(
+                user
+            );
+
+
+            setupTuklassShell();
+
+
+            setupSidebarIcons();
+
+        };
+
+})();
+
+
+/* =========================================================
+   KEEP BRAND / PROFILE IN SYNC
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        setupSidebarIcons();
+
+        setupTuklassShell();
+
+    }
+);
+
+</script>
+
+
+<!-- =========================================================
+     ORIGINAL WORKING AUTH / ACCOUNT SCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const GOOGLE_CLIENT_ID =
+    "148780152741-7bsouicsp37po7o79ov66pofji4ksvhc.apps.googleusercontent.com";
+
+
+const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbzm5LpGtEla7cszMG0OIxZqf_pwuxJnOSmpEwUkqsiz886ql12hDFBHdxFBCWYyVYxf/exec";
+
+
+let pendingGoogleUser =
+    null;
+
+
+let profileSearchTimer =
+    null;
+
+
+/* =========================================================
+   PAGE START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function () {
+
+        initializeGoogleLogin();
+
+        loadSavedSession();
+
+        setupProfileSearch();
+
+    }
+);
+
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+function initializeGoogleLogin() {
+
+    if (
+        !window.google ||
+        !google.accounts ||
+        !google.accounts.id
+    ) {
+
+        setTimeout(
+            initializeGoogleLogin,
+            300
+        );
+
+        return;
+
+    }
+
+
+    google.accounts.id.initialize({
+
+        client_id:
+            GOOGLE_CLIENT_ID,
+
+        callback:
+            handleCredentialResponse
+
+    });
+
+
+    google.accounts.id.renderButton(
+
+        document.getElementById(
+            "googleLogin"
+        ),
+
+        {
+
+            theme:
+                "outline",
+
+            size:
+                "large",
+
+            text:
+                "signin_with",
+
+            shape:
+                "rectangular",
+
+            width:
+                250
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   LOAD SAVED SESSION
+========================================================= */
+
+function loadSavedSession() {
+
+    const savedUser =
+        localStorage.getItem(
+            "writejotUser"
+        );
+
+
+    if (!savedUser) {
+
+        showHome();
+
+        return;
+
+    }
+
+
+    try {
+
+        const user =
+            JSON.parse(
+                savedUser
+            );
+
+
+        /*
+         * Show the dashboard immediately.
+         * We do not wait for Apps Script.
+         */
+
+        showDashboard(
+            user
+        );
+
+
+        /*
+         * Verify the account in the
+         * background.
+         */
+
+        checkAccountInBackground(
+            user
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Saved session error:",
+            error
+        );
+
+
+        localStorage.removeItem(
+            "writejotUser"
+        );
+
+
+        showHome();
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW HOME
+========================================================= */
+
+function showHome() {
+
+    hideAppLoading();
+
+
+    document
+        .getElementById(
+            "publicHeader"
+        ).style.display =
+        "flex";
+
+
+    document
+        .getElementById(
+            "siteFooter"
+        ).style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "homeSection"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "accountSetup"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "profileArea"
+        )
+        .style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   SHOW ACCOUNT SETUP
+========================================================= */
+
+function showAccountSetup(
+    user
+) {
+
+    hideAppLoading();
+
+
+    document
+        .getElementById(
+            "publicHeader"
+        ).style.display =
+        "flex";
+
+
+    document
+        .getElementById(
+            "siteFooter"
+        ).style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "homeSection"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "accountSetup"
+        )
+        .style.display =
+        "flex";
+
+
+    document
+        .getElementById(
+            "profileArea"
+        )
+        .style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+========================================================= */
+
+function showDashboard(
+    user
+) {
+
+    hideAppLoading();
+
+
+    document
+        .getElementById(
+            "publicHeader"
+        ).style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "siteFooter"
+        ).style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "homeSection"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "accountSetup"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "profileArea"
+        )
+        .style.display =
+        "flex";
+
+
+    const picture =
+        user.profilePicture ||
+        user.picture ||
+        "images/W.png";
+
+
+    document
+        .getElementById(
+            "profilePicture"
+        )
+        .src =
+        picture;
+
+
+    document
+        .getElementById(
+            "profilePicture"
+        )
+        .onerror =
+        function () {
+
+            this.src =
+                "images/W.png";
+
+        };
+
+
+    document
+        .getElementById(
+            "dashboardPicture"
+        )
+        .src =
+        picture;
+
+
+    document
+        .getElementById(
+            "dashboardPicture"
+        )
+        .onerror =
+        function () {
+
+            this.src =
+                "images/W.png";
+
+        };
+
+
+    document
+        .getElementById(
+            "profileName"
+        )
+        .textContent =
+        user.name ||
+        user.email ||
+        "Tuklass User";
+
+
+    document
+        .getElementById(
+            "dashboardName"
+        )
+        .textContent =
+        "Welcome, " +
+        (
+            user.name ||
+            "Student"
+        ) +
+        "!";
+
+
+    document
+        .getElementById(
+            "dashboardUsername"
+        )
+        .textContent =
+        "@" +
+        (
+            user.username ||
+            "username"
+        );
+
+
+    updateDashboardStatus(
+        user
+    );
+
+
+    /* =====================================================
+       TUKLASS SIDEBAR PROFILE SYNC
+    ===================================================== */
+
+    const sidebarPicture =
+        document.getElementById(
+            "sidebarProfilePicture"
+        );
+
+    const sidebarName =
+        document.getElementById(
+            "sidebarProfileName"
+        );
+
+    const sidebarUsername =
+        document.getElementById(
+            "sidebarProfileUsername"
+        );
+
+    const profilePageLink =
+        document.getElementById(
+            "profilePageLink"
+        );
+
+
+    if (sidebarPicture) {
+
+        sidebarPicture.src =
+            picture;
+
+        sidebarPicture.onerror =
+            function () {
+
+                this.src =
+                    "images/Logo3.1.png";
+
+            };
+
+    }
+
+
+    if (sidebarName) {
+
+        sidebarName.textContent =
+            user.name ||
+            user.email ||
+            "Student";
+
+    }
+
+
+    if (sidebarUsername) {
+
+        sidebarUsername.textContent =
+            "@" +
+            (
+                user.username ||
+                "username"
+            );
+
+    }
+
+
+    if (
+        profilePageLink &&
+        user.username
+    ) {
+
+        profilePageLink.href =
+            "profile.html?username=" +
+            encodeURIComponent(
+                user.username
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   GOOGLE CALLBACK
+========================================================= */
+
+async function handleCredentialResponse(
+    response
+) {
+
+    try {
+
+        const data =
+            parseJwt(
+                response.credential
+            );
+
+
+        const user = {
+
+            name:
+                data.name ||
+                "",
+
+            email:
+                data.email ||
+                "",
+
+            picture:
+                data.picture ||
+                "",
+
+            googleId:
+                data.sub ||
+                "",
+
+            username:
+                "",
+
+            bio:
+                "",
+
+            profilePicture:
+                ""
+
+        };
+
+
+        pendingGoogleUser =
+            user;
+
+
+        await checkAccount(
+            user
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Google login error:",
+            error
+        );
+
+
+        alert(
+            "There was a problem signing in. Please try again."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK ACCOUNT
+========================================================= */
+
+async function checkAccount(
+    user
+) {
+
+    try {
+
+        const response =
+            await fetch(
+
+                APPS_SCRIPT_URL +
+                "?action=account&email=" +
+                encodeURIComponent(
+                    user.email
+                ),
+
+                {
+                    cache:
+                        "no-store"
+                }
+
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            result.success &&
+            result.existingUser
+        ) {
+
+            const accountUser = {
+
+                ...user,
+
+                username:
+                    result.username ||
+                    "",
+
+                bio:
+                    result.bio ||
+                    "",
+
+                profilePicture:
+                    result.profilePicture ||
+                    "",
+
+                status:
+                    result.status ||
+                    "",
+
+                payment:
+                    result.payment ||
+                    ""
+
+            };
+
+
+            if (
+                result.username
+            ) {
+
+                localStorage.setItem(
+
+                    "writejotUser",
+
+                    JSON.stringify(
+                        accountUser
+                    )
+
+                );
+
+
+                showDashboard(
+                    accountUser
+                );
+
+            }
+            else {
+
+                pendingGoogleUser =
+                    accountUser;
+
+
+                showAccountSetup(
+                    accountUser
+                );
+
+            }
+
+
+            return;
+
+        }
+
+
+        pendingGoogleUser =
+            user;
+
+
+        showAccountSetup(
+            user
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Account check error:",
+            error
+        );
+
+
+        alert(
+            "Tuklass couldn't connect to the account database. Please try again."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND ACCOUNT CHECK
+========================================================= */
+
+async function checkAccountInBackground(
+    user
+) {
+
+    if (
+        !user ||
+        !user.email
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                APPS_SCRIPT_URL +
+                "?action=account&email=" +
+                encodeURIComponent(
+                    user.email
+                ),
+
+                {
+                    cache:
+                        "no-store"
+                }
+
+            );
+
+
+        if (
+            !response.ok
+        ) {
+
+            return;
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !result.success ||
+            !result.existingUser
+        ) {
+
+            return;
+
+        }
+
+
+        const updatedUser = {
+
+            ...user,
+
+            name:
+                result.name ||
+                user.name,
+
+            username:
+                result.username ||
+                user.username,
+
+            bio:
+                result.bio ||
+                user.bio ||
+                "",
+
+            profilePicture:
+                result.profilePicture ||
+                user.profilePicture ||
+                user.picture ||
+                "",
+
+            status:
+                result.status ||
+                user.status,
+
+            payment:
+                result.payment ||
+                user.payment
+
+        };
+
+
+        localStorage.setItem(
+
+            "writejotUser",
+
+            JSON.stringify(
+                updatedUser
+            )
+
+        );
+
+
+        /*
+         * Update visible dashboard
+         * without changing pages.
+         */
+
+        if (
+            document
+                .getElementById(
+                    "dashboard"
+                )
+                .style.display !==
+            "none"
+        ) {
+
+            showDashboard(
+                updatedUser
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        /*
+         * Do not kick the user out if
+         * the server happens to be slow.
+         */
+
+        console.log(
+            "Background account check failed."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE WRITEJOT ACCOUNT
+========================================================= */
+
+async function createWritejotAccount() {
+
+    if (
+        !pendingGoogleUser
+    ) {
+
+        alert(
+            "Please sign in with Google first."
+        );
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "usernameInput"
+        );
+
+
+    const message =
+        document.getElementById(
+            "usernameMessage"
+        );
+
+
+    const username =
+        input
+            .value
+            .trim()
+            .toLowerCase()
+            .replace(
+                /^@/,
+                ""
+            );
+
+
+    if (
+        username.length <
+            3 ||
+        username.length >
+            20
+    ) {
+
+        message.textContent =
+            "Username must be 3–20 characters.";
+
+        message.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    if (
+        !/^[a-z0-9_]+$/i.test(
+            username
+        )
+    ) {
+
+        message.textContent =
+            "Use only letters, numbers, and underscores.";
+
+        message.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    try {
+
+        const availableResponse =
+            await fetch(
+
+                APPS_SCRIPT_URL +
+                "?action=usernameAvailable" +
+                "&username=" +
+                encodeURIComponent(
+                    username
+                ) +
+                "&email=" +
+                encodeURIComponent(
+                    pendingGoogleUser.email
+                ),
+
+                {
+                    cache:
+                        "no-store"
+                }
+
+            );
+
+
+        const availability =
+            await availableResponse.json();
+
+
+        if (
+            !availability.available
+        ) {
+
+            message.textContent =
+                availability.error ||
+                "Username is already taken.";
+
+            message.style.color =
+                "#dc2626";
+
+            return;
+
+        }
+
+
+        document
+            .getElementById(
+                "setupLoading"
+            )
+            .style.display =
+            "block";
+
+
+        document
+            .getElementById(
+                "createAccountButton"
+            )
+            .disabled =
+            true;
+
+
+        await fetch(
+
+            APPS_SCRIPT_URL,
+
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        action:
+                            "createAccount",
+
+                        name:
+                            pendingGoogleUser.name,
+
+                        email:
+                            pendingGoogleUser.email,
+
+                        googleId:
+                            pendingGoogleUser.googleId,
+
+                        username:
+                            username
+
+                    })
+
+            }
+
+        );
+
+
+        const verified =
+            await waitForAccount(
+
+                pendingGoogleUser.email,
+
+                username
+
+            );
+
+
+        if (
+            !verified
+        ) {
+
+            throw new Error(
+                "Account was not confirmed."
+            );
+
+        }
+
+
+        const finalUser = {
+
+            ...pendingGoogleUser,
+
+            username:
+                verified.username,
+
+            bio:
+                verified.bio ||
+                "",
+
+            profilePicture:
+                verified.profilePicture ||
+                "",
+
+            status:
+                verified.status ||
+                "trial",
+
+            payment:
+                verified.payment ||
+                "No"
+
+        };
+
+
+        localStorage.setItem(
+
+            "writejotUser",
+
+            JSON.stringify(
+                finalUser
+            )
+
+        );
+
+
+        showDashboard(
+            finalUser
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Account creation error:",
+            error
+        );
+
+
+        message.textContent =
+            "Could not create your account.";
+
+        message.style.color =
+            "#dc2626";
+
+    }
+
+    finally {
+
+        document
+            .getElementById(
+                "setupLoading"
+            )
+            .style.display =
+            "none";
+
+
+        document
+            .getElementById(
+                "createAccountButton"
+            )
+            .disabled =
+            false;
+
+    }
+
+}
+
+
+/* =========================================================
+   WAIT FOR ACCOUNT
+========================================================= */
+
+async function waitForAccount(
+    email,
+    username
+) {
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+
+                    APPS_SCRIPT_URL +
+                    "?action=account&email=" +
+                    encodeURIComponent(
+                        email
+                    ),
+
+                    {
+                        cache:
+                            "no-store"
+                    }
+
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                result.success &&
+                result.username &&
+                result.username.toLowerCase() ===
+                    username.toLowerCase()
+            ) {
+
+                return result;
+
+            }
+
+        }
+
+        catch (error) {}
+
+
+        await sleep(
+            600
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   UPDATE DASHBOARD STATUS
+========================================================= */
+
+async function updateDashboardStatus(
+    user
+) {
+
+    const statusElement =
+        document.getElementById(
+            "dashboardStatus"
+        );
+
+
+    const statusMessage =
+        document.getElementById(
+            "dashboardStatusMessage"
+        );
+
+
+    const status =
+        String(
+            user.status ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        status ===
+        "trial"
+    ) {
+
+        statusElement.textContent =
+            "7-day free trial";
+
+
+        statusMessage.textContent =
+            "Your 7-day free trial is active.";
+
+    }
+
+    else if (
+        status ===
+        "active"
+    ) {
+
+        statusElement.textContent =
+            "Active account";
+
+
+        statusMessage.textContent =
+            "Your Tuklass account is active.";
+
+    }
+
+    else if (
+        status
+    ) {
+
+        statusElement.textContent =
+            "Account status: " +
+            user.status;
+
+
+        statusMessage.textContent =
+            "Your current account status is: " +
+            user.status +
+            ".";
+
+    }
+
+    else {
+
+        statusElement.textContent =
+            "Tuklass account";
+
+
+        statusMessage.textContent =
+            "Your account information is loading.";
+
+    }
+
+}
+
+
+/* =========================================================
+   PROFILE SEARCH
+========================================================= */
+
+function setupProfileSearch() {
+
+    const input =
+        document.getElementById(
+            "profileSearchInput"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.addEventListener(
+        "input",
+        searchProfiles
+    );
+
+}
+
+
+async function searchProfiles() {
+
+    const input =
+        document.getElementById(
+            "profileSearchInput"
+        );
+
+
+    const resultsBox =
+        document.getElementById(
+            "profileSearchResults"
+        );
+
+
+    const query =
+        input.value.trim();
+
+
+    clearTimeout(
+        profileSearchTimer
+    );
+
+
+    if (
+        query.length <
+        2
+    ) {
+
+        resultsBox.style.display =
+            "none";
+
+
+        resultsBox.innerHTML =
+            "";
+
+
+        return;
+
+    }
+
+
+    profileSearchTimer =
+        setTimeout(
+
+            async function () {
+
+                try {
+
+                    const response =
+                        await fetch(
+
+                            APPS_SCRIPT_URL +
+                            "?action=searchProfiles&q=" +
+                            encodeURIComponent(
+                                query
+                            ),
+
+                            {
+                                cache:
+                                    "no-store"
+                            }
+
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        !result.success ||
+                        !result.profiles ||
+                        !result.profiles.length
+                    ) {
+
+                        resultsBox.innerHTML =
+
+                            `
+                            <div
+                                style="
+                                    padding:16px;
+                                    color:#718096;
+                                    text-align:center;
+                                "
+                            >
+                                No profiles found.
+                            </div>
+                            `;
+
+
+                        resultsBox.style.display =
+                            "block";
+
+
+                        return;
+
+                    }
+
+
+                    resultsBox.innerHTML =
+                        result.profiles
+                            .map(
+
+                                function (
+                                    profile
+                                ) {
+
+                                    const picture =
+                                        profile.profilePicture ||
+                                        "images/W.png";
+
+
+                                    return `
+
+                                        <div
+                                            class="search-result"
+                                            data-username="${escapeHtml(
+                                                profile.username
+                                            )}"
+                                        >
+
+                                            <img
+                                                src="${escapeHtml(
+                                                    picture
+                                                )}"
+                                                alt=""
+                                                onerror="
+                                                    this.src='images/W.png'
+                                                "
+                                            >
+
+
+                                            <div
+                                                style="min-width:0;"
+                                            >
+
+                                                <div
+                                                    class="search-result-name"
+                                                >
+                                                    ${escapeHtml(
+                                                        profile.name ||
+                                                        "Tuklass User"
+                                                    )}
+                                                </div>
+
+
+                                                <div
+                                                    class="search-result-username"
+                                                >
+                                                    @${escapeHtml(
+                                                        profile.username
+                                                    )}
+                                                </div>
+
+
+                                                ${
+                                                    profile.bio
+                                                        ? `
+                                                            <div
+                                                                class="search-result-bio"
+                                                            >
+                                                                ${escapeHtml(
+                                                                    profile.bio
+                                                                )}
+                                                            </div>
+                                                          `
+                                                        : ""
+                                                }
+
+                                            </div>
+
+                                        </div>
+
+                                    `;
+
+                                }
+
+                            )
+                            .join("");
+
+
+                    resultsBox.style.display =
+                        "block";
+
+
+                    resultsBox
+                        .querySelectorAll(
+                            ".search-result"
+                        )
+                        .forEach(
+
+                            function (
+                                element
+                            ) {
+
+                                element.addEventListener(
+                                    "click",
+                                    function () {
+
+                                        const username =
+                                            element.dataset.username;
+
+
+                                        window.location.href =
+                                            "profile.html?username=" +
+                                            encodeURIComponent(
+                                                username
+                                            );
+
+                                    }
+                                );
+
+                            }
+                        );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Profile search error:",
+                        error
+                    );
+
+                }
+
+            },
+
+            250
+
+        );
+
+}
+
+
+/* =========================================================
+   CLOSE SEARCH
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const search =
+            document.querySelector(
+                ".profile-search"
+            );
+
+
+        if (
+            search &&
+            !search.contains(
+                event.target
+            )
+        ) {
+
+            document
+                .getElementById(
+                    "profileSearchResults"
+                )
+                .style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "writejotUser"
+    );
+
+
+    pendingGoogleUser =
+        null;
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "profileArea"
+        )
+        .style.display =
+        "none";
+
+
+    showHome();
+
+
+    if (
+        window.google &&
+        google.accounts &&
+        google.accounts.id
+    ) {
+
+        google.accounts.id.disableAutoSelect();
+
+    }
+
+}
+
+
+/* =========================================================
+   FEATURE PLACEHOLDER
+========================================================= */
+
+function featureComingSoon(
+    feature
+) {
+
+    alert(
+        feature +
+        " is coming soon."
+    );
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function hideAppLoading() {
+
+    const loading =
+        document.getElementById(
+            "appLoading"
+        );
+
+
+    if (
+        loading
+    ) {
+
+        loading.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ||
+        ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   SLEEP
+========================================================= */
+
+function sleep(
+    milliseconds
+) {
+
+    return new Promise(
+        function (resolve) {
+
+            setTimeout(
+                resolve,
+                milliseconds
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GOOGLE JWT
+========================================================= */
+
+function parseJwt(
+    token
+) {
+
+    const base64Url =
+        token.split(".")[1];
+
+
+    const base64 =
+        base64Url
+            .replace(
+                /-/g,
+                "+"
+            )
+            .replace(
+                /_/g,
+                "/"
+            );
+
+
+    const jsonPayload =
+        decodeURIComponent(
+
+            atob(
+                base64
+            )
+            .split("")
+            .map(
+                function (c) {
+
+                    return "%" +
+                        (
+                            "00" +
+                            c
+                                .charCodeAt(0)
+                                .toString(16)
+                        )
+                        .slice(-2);
+
+                }
+            )
+            .join("")
+
+        );
+
+
+    return JSON.parse(
+        jsonPayload
+    );
+
+}
+
+</script>
+</body>
+</html>
