@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin-reminders.html
+Disallow: /admin-classes.html
+Disallow: /edit-profile.html
+Disallow: /chat.html
+Disallow: /messages.html
+Disallow: /calendar.html
+Disallow: /reminders.html
+
+Sitemap: https://tuklass.com/sitemap.xml
+
+Disallow: /admin-calendar.html
