@@ -1,0 +1,409 @@
+/* =========================================================
+   TUKLASS V7 — CENTERED LANDING, AUTH ACTIONS, LEGAL UI
+========================================================= */
+
+/* The prior showHome() used display:block and defeated the V6 flex centering.
+   V7 also hardens the layout so it remains centered if another rule changes. */
+#homeSection.public-home-simple {
+    width: 100% !important;
+    min-height: calc(100vh - 76px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 56px 24px 80px !important;
+}
+
+#homeSection.public-home-simple .public-simple-shell {
+    width: min(820px, 100%) !important;
+    margin: 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+/* Logo1 has generous transparent padding, so scale the artwork visually. */
+.public-header-simple {
+    min-height: 76px !important;
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+    overflow: visible !important;
+}
+
+.public-header-simple .brand-logo-only {
+    width: 160px !important;
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+}
+
+.public-header-simple .brand-logo-only img {
+    width: 160px !important;
+    height: 52px !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    transform: scale(2.6);
+    transform-origin: center center;
+}
+
+.public-hero-logo {
+    width: min(360px, 65vw) !important;
+    height: 110px !important;
+    max-height: none !important;
+    margin: 0 auto 64px !important;
+    object-fit: contain !important;
+    transform: scale(3.0);
+    transform-origin: center center;
+    pointer-events: none;
+}
+
+.public-auth-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.public-auth-actions .public-create-account,
+.public-auth-actions .public-login-button {
+    min-width: 160px;
+    min-height: 48px;
+    margin-top: 0 !important;
+    border-radius: 14px !important;
+}
+
+.public-login-button {
+    border: 1px solid #cfd7dc !important;
+    background: #ffffff !important;
+    color: #111417 !important;
+}
+
+.public-login-button:hover {
+    border-color: #111417 !important;
+    background: #f6f8f9 !important;
+}
+
+.public-legal-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+    color: #8a939a;
+    font-size: 11px;
+}
+
+.public-legal-links a,
+.footer-legal-links a,
+.account-modal-legal a,
+.setup-terms-agreement a {
+    color: #4e5860;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.public-legal-links a:hover,
+.footer-legal-links a:hover,
+.account-modal-legal a:hover,
+.setup-terms-agreement a:hover {
+    text-decoration: underline;
+}
+
+/* Account auth dialog */
+.account-modal-card {
+    text-align: center;
+}
+
+.account-modal-wordmark {
+    width: 180px !important;
+    height: 68px !important;
+    max-height: none !important;
+    margin: 6px auto 36px !important;
+    object-fit: contain !important;
+    transform: scale(2.45);
+    transform-origin: center center;
+}
+
+.account-modal-legal {
+    max-width: 340px;
+    margin: 17px auto 0 !important;
+    color: #899198 !important;
+    font-size: 10px !important;
+    line-height: 1.55 !important;
+}
+
+/* Student setup wordmark */
+.setup-icon.setup-logo1 {
+    width: 190px !important;
+    height: 62px !important;
+    margin: 0 0 34px !important;
+    overflow: visible !important;
+}
+
+.setup-icon.setup-logo1 img {
+    width: 190px !important;
+    height: 62px !important;
+    object-fit: contain !important;
+    transform: scale(2.65);
+    transform-origin: left center;
+}
+
+.setup-terms-agreement {
+    display: grid;
+    grid-template-columns: 18px minmax(0,1fr);
+    gap: 9px;
+    align-items: flex-start;
+    margin: 22px 0 2px;
+    padding: 13px 14px;
+    border: 1px solid #e0e5e8;
+    border-radius: 12px;
+    background: #f8fafb;
+    color: #667078;
+    font-size: 10px;
+    line-height: 1.55;
+    cursor: pointer;
+}
+
+.setup-terms-agreement input {
+    width: 16px;
+    height: 16px;
+    margin: 1px 0 0;
+    accent-color: #80d800;
+}
+
+.setup-terms-message {
+    min-height: 16px;
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+#siteFooter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.footer-legal-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@media (max-width: 760px) {
+    .public-header-simple {
+        min-height: 68px !important;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .public-header-simple .brand-logo-only {
+        width: 128px !important;
+        height: 44px !important;
+    }
+
+    .public-header-simple .brand-logo-only img {
+        width: 128px !important;
+        height: 44px !important;
+        transform: scale(2.4);
+    }
+
+    #homeSection.public-home-simple {
+        min-height: calc(100dvh - 68px) !important;
+        padding: 42px 18px 70px !important;
+    }
+
+    .public-hero-logo {
+        width: min(280px, 72vw) !important;
+        height: 88px !important;
+        margin-bottom: 48px !important;
+        transform: scale(2.8);
+    }
+
+    .public-home-simple h1 {
+        font-size: clamp(40px, 13vw, 60px) !important;
+    }
+
+    .public-auth-actions {
+        width: min(360px, 100%);
+        flex-direction: column;
+    }
+
+    .public-auth-actions .public-create-account,
+    .public-auth-actions .public-login-button {
+        width: 100%;
+    }
+
+    .account-modal-wordmark {
+        transform: scale(2.2);
+        margin-bottom: 30px !important;
+    }
+
+    .setup-icon.setup-logo1 {
+        width: 155px !important;
+        height: 54px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .setup-icon.setup-logo1 img {
+        width: 155px !important;
+        height: 54px !important;
+        transform: scale(2.35);
+    }
+}
+
+/* =========================================================
+   V7.1 — AUTH / LANDING VISIBILITY + LOGO POLISH
+   Requested fixes: larger hero wordmark, left-shifted public
+   wordmark, readable dashboard wordmark, and reliable auth UI.
+========================================================= */
+
+/* showDashboard() hides #homeSection with an inline display:none.
+   The earlier V7 flex rule used !important and could keep the landing
+   page visible above the dashboard. Explicitly respect the hidden state. */
+#homeSection.public-home-simple[hidden],
+#homeSection.public-home-simple[style*="display: none"],
+#homeSection.public-home-simple[style*="display:none"] {
+    display: none !important;
+}
+
+/* Make the centered landing-page Tuklass wordmark more prominent. */
+.public-hero-logo {
+    width: min(410px, 72vw) !important;
+    height: 126px !important;
+    margin-bottom: 70px !important;
+    transform: scale(3.8) !important;
+}
+
+/* Pull the small public-header wordmark closer to the left edge. */
+.public-header-simple {
+    padding-left: 10px !important;
+}
+
+.public-header-simple .brand-logo-only {
+    margin-left: -10px !important;
+    justify-content: flex-start !important;
+}
+
+.public-header-simple .brand-logo-only img {
+    transform-origin: left center !important;
+}
+
+/* The Logo1 asset contains transparent padding. Give it enough rendered
+   space in the desktop sidebar so the full "Tuklass" wordmark is readable. */
+@media (min-width: 761px) {
+    #dashboard .sidebar-brand {
+        min-height: 86px !important;
+        padding: 6px 4px 24px !important;
+        overflow: visible !important;
+        justify-content: flex-start !important;
+    }
+
+    #dashboard .sidebar-brand img {
+        width: 108px !important;
+        height: 54px !important;
+        flex: 0 0 108px !important;
+        max-width: none !important;
+        transform: scale(2.05) !important;
+        transform-origin: left center !important;
+        object-position: left center !important;
+    }
+}
+
+/* Keep the auth close control above every modal child/Google iframe and
+   make its click target comfortably large. */
+.account-modal-close {
+    z-index: 20 !important;
+    min-width: 56px;
+    min-height: 38px;
+    padding: 6px 8px;
+    pointer-events: auto !important;
+}
+
+@media (max-width: 760px) {
+    .public-header-simple {
+        padding-left: 7px !important;
+    }
+
+    .public-header-simple .brand-logo-only {
+        margin-left: -8px !important;
+    }
+
+    .public-hero-logo {
+        width: min(315px, 78vw) !important;
+        height: 96px !important;
+        margin-bottom: 52px !important;
+        transform: scale(3.25) !important;
+    }
+}
+
+
+/* =========================================================
+   V7.2 — SIDEBAR WORDMARK WITHOUT EXTRA VERTICAL SPACING
+========================================================= */
+/*
+   Logo1.png has a lot of transparent canvas around the actual wordmark.
+   Enlarge the artwork visually, but keep the brand row at the same height
+   as V7.1 so Workspace/Search/Home do not get pushed farther down.
+*/
+@media (min-width: 761px) {
+    #dashboard .sidebar-brand {
+        position: relative !important;
+        width: 100% !important;
+        height: 86px !important;
+        min-height: 86px !important;
+        padding: 6px 4px 24px !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        display: block !important;
+    }
+
+    #dashboard .sidebar-brand img {
+        position: absolute !important;
+        left: 50% !important;
+        top: 34px !important;
+        width: calc(100% - 8px) !important;
+        height: 54px !important;
+        max-width: none !important;
+        max-height: none !important;
+        flex: none !important;
+        object-fit: contain !important;
+        object-position: center center !important;
+        transform: translate(-50%, -50%) scale(4.1) !important;
+        transform-origin: center center !important;
+        pointer-events: none !important;
+    }
+}
+
+/* The mobile drawer gets the same large wordmark treatment without
+   increasing the space before the first navigation item. */
+@media (max-width: 760px) {
+    #dashboard .sidebar-brand {
+        position: relative !important;
+        height: 72px !important;
+        min-height: 72px !important;
+        padding: 4px 4px 14px !important;
+        overflow: hidden !important;
+        display: block !important;
+    }
+
+    #dashboard .sidebar-brand img {
+        position: absolute !important;
+        left: 50% !important;
+        top: 29px !important;
+        width: calc(100% - 8px) !important;
+        height: 48px !important;
+        max-width: none !important;
+        max-height: none !important;
+        flex: none !important;
+        object-fit: contain !important;
+        object-position: center center !important;
+        transform: translate(-50%, -50%) scale(3.7) !important;
+        transform-origin: center center !important;
+        pointer-events: none !important;
+    }
+}
