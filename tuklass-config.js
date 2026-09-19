@@ -16,7 +16,7 @@ window.TUKLASS_CONFIG = Object.freeze({
 
     /* V8.7: payments are handled manually through the official Tuklass Facebook page. */
     paymentsUrl:
-        "https://www.facebook.com/tuklass",
+        "https://www.facebook.com/profile.php?id=61593610565987",
 
     polling: Object.freeze({
         /* Chat still refreshes quickly, but V8 cuts idle backend traffic. */
